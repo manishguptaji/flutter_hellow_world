@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_resume/login/home_controller.dart';
 import 'package:get/get.dart';
+import 'package:my_resume/pager.dart';
 
 class LoginApp extends StatefulWidget {
   const LoginApp({super.key});
@@ -53,7 +54,12 @@ class _LoginAppState extends State<LoginApp> {
                     child: ElevatedButton(
                       child: const Text( 'Log in ', style: TextStyle(color: Colors.white, fontSize: 20)),
                       onPressed: () async {
-                        await dataController.getApi() == true  ? EasyLoading.showSuccess(dataController.loginModel?.id ?? "") : EasyLoading.showError('Error');
+                        if(await dataController.getApi() == true) {
+                          EasyLoading.showSuccess(dataController.loginModel?.id ?? "");
+                          Get.to(const Pager());
+                        } else {
+                          EasyLoading.showError('Error');
+                        }
                       },
                     ),
                   ),
