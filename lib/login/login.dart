@@ -55,7 +55,14 @@ class _LoginAppState extends State<LoginApp> {
                       child: const Text( 'Log in ', style: TextStyle(color: Colors.white, fontSize: 20)),
                       onPressed: () async {
                         if(await dataController.getApi() == true) {
-                          EasyLoading.showSuccess(dataController.loginModel?.id ?? "");
+                          //EasyLoading.showSuccess(dataController.loginModel?.id ?? "");
+                          Get.snackbar(
+                            dataController.loginModel?.id ?? "",
+                            "Hello everyone",
+                            icon: Icon(Icons.person, color: Colors.white),
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.green,
+                          );
                           Get.to(const Pager());
                         } else {
                           EasyLoading.showError('Error');

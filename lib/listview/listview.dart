@@ -28,8 +28,9 @@ class HomeView extends GetView<ListController> {
               height: 20,
             ),
             Expanded(
-              child: Obx(
-                    () => ListView.builder(
+              child: Obx(() => controller.isDataLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
                   itemCount: controller.filterData.value.length,
                   itemBuilder: (context, index) => ListItem2(context, index, controller)
               ),

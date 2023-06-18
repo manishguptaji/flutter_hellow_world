@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ListController extends GetxController {
   final List<Map<String, String>> countries = [
@@ -11,11 +12,14 @@ class ListController extends GetxController {
 
   Rx<List<Map<String, String>>> filterData = Rx<List<Map<String, String>>>([]);
 
+  var isDataLoading = false.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
 
     filterData.value = countries;
+    getRandomString();
   }
 
   @override
@@ -38,5 +42,23 @@ class ListController extends GetxController {
     }
 
     filterData.value = result;
+  }
+
+  Future<String> getRandomString() async {
+    try {
+      isDataLoading(true);
+      http.Response response = await http.get(
+          Uri.tryParse('https://run.mocky.io/v3/2144ea90-a1e3-48d0-90f6-123eca962012')!
+      );
+
+      var result = jsonDecode(response.body);
+
+      return result;
+    } catch (e) {
+      print('Error while getting data is $e');
+      return "";
+    } finally {
+      isDataLoading(false);
+    }
   }
 }
